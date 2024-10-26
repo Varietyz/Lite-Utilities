@@ -39,7 +39,7 @@ import net.runelite.client.util.HotkeyListener;
 @PluginDescriptor(
 	name = "Lite Utilities",
 	description = "Utilities that are compact yet informative, display profits and inventory value.",
-	tags = {"combat", "profit", "gold", "farming", "items", "overlay", "inventory", "tracking", "calculate", "skilling", "money", "pouch"},
+	tags = {"combat", "profit", "gold", "items", "inventory", "tracking", "calculate", "skilling", "money", "pouch"},
 	conflicts = {"Inventory Total"}
 )
 
@@ -49,7 +49,6 @@ public class LiteUtilitiesPlugin extends Plugin
 	static final int TOTAL_GP_GE_INDEX = 0;
 	static final int TOTAL_GP_HA_INDEX = 1;
 	static final int TOTAL_QTY_INDEX = 2;
-	static final int NO_PROFIT_LOSS_TIME = -1;
 	static final int RUNEPOUCH_ITEM_ID = 12791;
 	static final int DIVINE_RUNEPOUCH_ITEM_ID = 27281;
 
