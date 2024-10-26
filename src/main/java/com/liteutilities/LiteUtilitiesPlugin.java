@@ -39,7 +39,7 @@ import net.runelite.client.util.HotkeyListener;
 @PluginDescriptor(
 	name = "Lite Utilities",
 	description = "Utilities that are compact yet informative, display profits and inventory value.",
-	tags = {"combat", "profit", "gold", "farming", "items", "overlay", "inventory", "runelite", "status", "calculate", "skilling"},
+	tags = {"combat", "profit", "gold", "farming", "items", "overlay", "inventory", "tracking", "calculate", "skilling", "money", "pouch"},
 	conflicts = {"Inventory Total"}
 )
 

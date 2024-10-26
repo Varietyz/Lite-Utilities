@@ -13,8 +13,10 @@ import java.text.NumberFormat;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.inject.Inject;
@@ -36,8 +38,6 @@ import net.runelite.client.ui.overlay.components.TextComponent;
 class LiteUtilsOverlay extends Overlay
 {
 	private static final int TEXT_Y_OFFSET = 17;
-	private static final String PROFIT_LOSS_TIME_FORMAT = "%02d:%02d:%02d";
-	private static final String PROFIT_LOSS_TIME_NO_HOURS_FORMAT = "%02d:%02d";
 	private static final int HORIZONTAL_PADDING = 10;
 	private static final int BANK_CLOSE_DELAY = 0;
 	private static final Color TOOLTIP_BACKGROUND_COLOR = new Color(17, 17, 17, 225);
@@ -70,6 +70,17 @@ class LiteUtilsOverlay extends Overlay
 	private int canvasWidth = 0;
 	private int canvasHeight = 0;
 
+	int xOffset = 0;
+	int yOffset = 0;
+
+	private static final Map<ViewportModus, int[]> VIEWPORT_OFFSETS = new EnumMap<>(ViewportModus.class);
+	static {
+		VIEWPORT_OFFSETS.put(ViewportModus.RESIZED_BOX, new int[] { 26, 36 });
+		VIEWPORT_OFFSETS.put(ViewportModus.RESIZED_BOTTOM, new int[] { 11, 5 });
+		VIEWPORT_OFFSETS.put(ViewportModus.FIXED, new int[] { -216, -134 });
+		VIEWPORT_OFFSETS.put(ViewportModus.FIXED_BANK, new int[] { 26, 36 });
+	}
+
 	@Inject
 	private LiteUtilsOverlay(Client client, LiteUtilitiesPlugin plugin, LiteUtilsConfig config, ItemManager itemManager)
 	{
@@ -83,20 +94,38 @@ class LiteUtilsOverlay extends Overlay
 		this.itemManager = itemManager;
 	}
 
-	private Widget getViewportWidget()
-	{
-		Widget widget;
+	private ViewportModus currentViewportModus = null;
 
-		widget = client.getWidget(ComponentID.RESIZABLE_VIEWPORT_INTERFACE_CONTAINER);
-		if (widget != null) return widget;
+	private void updateOffsets(Widget viewportWidget) {
+		ViewportModus newViewportModus = null;
+		for (ViewportModus mode : ViewportModus.values()) {
+			if (viewportWidget.getId() == mode.getViewport()) {
+				newViewportModus = mode;
+				break;
+			}
+		}
 
-		widget = client.getWidget(ComponentID.RESIZABLE_VIEWPORT_BOTTOM_LINE_INTERFACE_CONTAINER);
-		if (widget != null) return widget;
+		if (newViewportModus != currentViewportModus) {
+			currentViewportModus = newViewportModus;
+			int[] offsets = VIEWPORT_OFFSETS.get(currentViewportModus);
+			if (offsets != null) {
+				xOffset = offsets[0];
+				yOffset = offsets[1];
+			} else {
+				xOffset = 0;
+				yOffset = 0;
+			}
+		}
+	}
 
-		widget = client.getWidget(ComponentID.FIXED_VIEWPORT_INTERFACE_CONTAINER);
-		if (widget != null) return widget;
-
-		return client.getWidget(ComponentID.BANK_INVENTORY_ITEM_CONTAINER);
+	private Widget getViewportWidget() {
+		for (ViewportModus mode : ViewportModus.values()) {
+			Widget widget = client.getWidget(mode.getViewport());
+			if (widget != null && !widget.isHidden()) {
+				return widget;
+			}
+		}
+		return null;
 	}
 
 	void updatePluginState()
@@ -234,13 +263,15 @@ class LiteUtilsOverlay extends Overlay
 	{
 		updatePluginState();
 
-		Widget viewportWidget = getViewportWidget();
 		Widget depositBox = client.getWidget(ComponentID.DEPOSIT_BOX_INVENTORY_ITEM_CONTAINER);
+		Widget viewportWidget = getViewportWidget();
 
 		if (viewportWidget == null || (depositBox != null && depositBox.isHidden()))
 		{
 			return null;
 		}
+
+		updateOffsets(viewportWidget);
 
 		net.runelite.api.Point viewportCanvasLocation = viewportWidget.getCanvasLocation();
 		if (viewportCanvasLocation == null)
@@ -318,7 +349,6 @@ class LiteUtilsOverlay extends Overlay
 							 long totalQty, long total, String totalText,
 							 int height)
 	{
-
 		if (plugin.getMode() == LiteUtilsModes.PROFIT_LOSS)
 		{
 			long profitGp = plugin.getProfitGp();
@@ -353,22 +383,15 @@ class LiteUtilsOverlay extends Overlay
 		graphics.setFont(FontManager.getRunescapeSmallFont());
 		final int totalWidth = graphics.getFontMetrics().stringWidth(totalText);
 
-		int fixedRunTimeWidth = 0;
-		int actualRunTimeWidth = 0;
 		int imageWidthWithPadding;
 
 		imageWidthWithPadding = imageSize + 3;
 
-		int width = totalWidth + fixedRunTimeWidth + imageWidthWithPadding + HORIZONTAL_PADDING * 2;
+		int width = totalWidth + imageWidthWithPadding + HORIZONTAL_PADDING * 2;
 
 		int x = invX + invW - width;
 
-		int xOffset = 26;
-
 		x += xOffset;
-
-		int yOffset = 36;
-
 		int y = invY - height - yOffset;
 
 		Color backgroundColor;

@@ -88,7 +88,7 @@ public interface LiteUtilsConfig extends Config
 			position = 1,
 			keyName = "resetProfitsSetting",
 			name = "Reset Profits",
-			description = "Resets the profits Tooltip and if enabled, the timer.",
+			description = "Resets the current profits and losses.",
 			section = HotKeySection
 	)
 	default Keybind newRunKey()
@@ -100,7 +100,7 @@ public interface LiteUtilsConfig extends Config
 	@ConfigItem(
 			position = 1,
 			keyName = "normalBackgroundColorSetting",
-			name = "Normal Background",
+			name = "Background (Total)",
 			description = "Configures the background color.",
 			section = ContainerSection
 	)
@@ -113,7 +113,7 @@ public interface LiteUtilsConfig extends Config
 	@ConfigItem(
 			position = 2,
 			keyName = "profitBackgroundColorSetting",
-			name = "Profit Background",
+			name = "Background (Profit)",
 			description = "Configures profit background color.",
 			section = ContainerSection
 	)
@@ -126,7 +126,7 @@ public interface LiteUtilsConfig extends Config
 	@ConfigItem(
 			position = 4,
 			keyName = "lossBackgroundColorSetting",
-			name = "Loss Background",
+			name = "Background (Loss)",
 			description = "Configures loss background color.",
 			section = ContainerSection
 	)
@@ -139,7 +139,7 @@ public interface LiteUtilsConfig extends Config
 			position = 0,
 			keyName = "showContainerSetting",
 			name = "Show Container",
-			description = "Enable/Disable container box.",
+			description = "Enable/Disable container.",
 			section = ContainerSection
 	)
 	default boolean showContainer()
@@ -151,7 +151,7 @@ public interface LiteUtilsConfig extends Config
 			position = 5,
 			keyName = "resetUponBankingSetting",
 			name = "Auto-Reset Profits (Banking)",
-			description = "Resets the profits and timer (if applicable) after banking.",
+			description = "Resets the profits/losses after banking.",
 			section = AdvancedSection
 	)
 	default boolean newRunAfterBanking()
@@ -163,7 +163,7 @@ public interface LiteUtilsConfig extends Config
 			position = 5,
 			keyName = "excludedItemsSetting",
 			name = "Excluded Items",
-			description = "Ignore these items in your inventory."
+			description = "Do not add these items to value calculation."
 	)
 	default String ignoredItems()
 	{

@@ -1,34 +1,35 @@
+
+# Lite Utilities Plugin
+
 ![icon.png](icon.png)
 
-# Lite Utilities
-Provides a neat oversight for the current value of your inventory.
+Provides a neat oversight for your current profits and total value of your inventory.
 
-Additionally, it keeps track of your profit and losses made during your trip!
+Additionally, it keeps track of your profit and losses made during your activity!
 
 - **Swap Between G.E and H.A prices**
-- ![img_10.png](img_10.png)
-
-
 - **You can seamlessly toggle between Profits/Loss value and Inventory value via a configurable HotKey!**
-- ![img_5.png](img_5.png)
+- **Setup Auto-reseting profits upon banking**
+- **Exclude items from the list by writing their name.**
 
+- **Hover over the coins to view the tooltip** *(Tooltip border and seperators color based on ur profit margin)*
 
-- **Setup a Timer to time your trips + Auto-reseting your timer and profits upon banking**
-- ![img_11.png](img_11.png)
+  ![img.png](README_IMAGES/img11.png) ![img_1.png](README_IMAGES/img_1.png) ![img_4.png](README_IMAGES/img_4.png) 
 
 
 - **Enable/Disable containers** *(border colors depending on Inv value, Profit/Loss Value)*
-- ![img_9.png](img_9.png)
-- ![img_2.png](img_2.png) ![img_7.png](img_7.png) <-- Inv Value Text + Border color
-- ![img_3.png](img_3.png) ![img_6.png](img_6.png) <-- Profits Text + Border color
-- ![img_4.png](img_4.png) ![img_8.png](img_8.png) <-- Loss Text + Border color
 
+  ![img_3.png](README_IMAGES/img_3.png) ![img_2.png](README_IMAGES/img_2.png) ![img_5.png](README_IMAGES/img_5.png)
 
-- **Hover over the coins to view the tooltip**
-- ![img_1.png](img_1.png)
+  ![img_8.png](README_IMAGES/img_8.png) ![img_7.png](README_IMAGES/img_7.png) ![img_6.png](README_IMAGES/img_6.png) 
 
+- **Exact prices**
 
-- **Exclude items from the list by writing their name.**
+  ![img_9.png](README_IMAGES/img_9.png) ![img_10.png](README_IMAGES/img_12.png)
+
+- **Settings Overview**
+
+  ![img.png](README_IMAGES/img.png)
 
 ## **Safety & Compliance**
 
