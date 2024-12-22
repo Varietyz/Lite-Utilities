@@ -39,6 +39,14 @@ public interface LiteUtilsConfig extends Config
 	)
 	String ContainerSection = "ContainerSettings";
 
+	@ConfigSection(
+		position = 4,
+		name = "Item Highlights",
+		description = "Adjust the highlight color and value",
+		closedByDefault = true
+	)
+	String highlightSection = "highlightSection";
+
 	@ConfigItem(
 			position = 0,
 			keyName = "itemPricesSetting",
@@ -62,13 +70,23 @@ public interface LiteUtilsConfig extends Config
 	}
 
 	@ConfigItem(
-		position = 0,
-		keyName = "showExactGpSetting",
-		name = "Show True GP Value",
-		description = "Configures whether or not the exact gp value is visible."
+			position = 0,
+			keyName = "showExactGpSetting",
+			name = "Show True GP Value",
+			description = "Configures whether or not the exact gp value is visible."
 	)
 	default boolean showExactGp()
 	{
+		return false;
+	}
+
+	@ConfigItem(
+			keyName = "overlayEnabled",
+			name = "Show Item Highlight",
+			description = "Toggles whether the Item highlight is enabled or not. (Inventory & Bank)",
+			position = 0
+	)
+	default boolean overlayEnabled() {
 		return false;
 	}
 
@@ -157,6 +175,106 @@ public interface LiteUtilsConfig extends Config
 	default boolean newRunAfterBanking()
 	{
 		return true;
+	}
+
+	@Alpha
+	@ConfigItem(
+		keyName = "lowValueColor",
+		name = "Low Value",
+		description = "Configures the color for low value items.",
+		section = highlightSection,
+		position = 1
+	)
+	default Color lowValueColor()
+	{
+		return new Color(101, 255, 141, 110);
+	}
+
+	@ConfigItem(
+		keyName = "lowValuePrice",
+		name = "",
+		description = "Configures the start price for low value items.",
+		section = highlightSection,
+		position = 2
+	)
+	default int lowValuePrice()
+	{
+		return 10000;  // Change from int to long
+	}
+
+	@Alpha
+	@ConfigItem(
+		keyName = "mediumValueColor",
+		name = "Medium Value",
+		description = "Configures the color for medium value items.",
+		section = highlightSection,
+		position = 3
+	)
+	default Color mediumValueColor()
+	{
+		return new Color(0, 255, 250, 114);
+	}
+
+	@ConfigItem(
+		keyName = "mediumValuePrice",
+		name = "",
+		description = "Configures the start price for medium value items.",
+		section = highlightSection,
+		position = 4
+	)
+	default int mediumValuePrice()
+	{
+		return 100000;  // Change from int to long
+	}
+
+	@Alpha
+	@ConfigItem(
+		keyName = "highValueColor",
+		name = "High Value",
+		description = "Configures the color for high value items.",
+		section = highlightSection,
+		position = 5
+	)
+	default Color highValueColor()
+	{
+		return new Color(255, 150, 0, 162);
+	}
+
+	@ConfigItem(
+		keyName = "highValuePrice",
+		name = "",
+		description = "Configures the start price for high value items.",
+		section = highlightSection,
+		position = 6
+	)
+	default int highValuePrice()
+	{
+		return 1000000;  // Change from int to long
+	}
+
+	@Alpha
+	@ConfigItem(
+		keyName = "insaneValueColor",
+		name = "Insane Value",
+		description = "Configures the color for insane value items.",
+		section = highlightSection,
+		position = 7
+	)
+	default Color insaneValueColor()
+	{
+		return new Color(255, 0, 0, 167);
+	}
+
+	@ConfigItem(
+		keyName = "insaneValuePrice",
+		name = "",
+		description = "Configures the start price for insane value items.",
+		section = highlightSection,
+		position = 8
+	)
+	default int insaneValuePrice()
+	{
+		return 10000000;  // Change from int to long
 	}
 
 	@ConfigItem(

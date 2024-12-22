@@ -720,7 +720,7 @@ class LiteUtilsOverlay extends Overlay
 				int textY = y + rowH * i + TEXT_Y_OFFSET + 5 + yOffset;
 
 				TextComponent textComponent = new TextComponent();
-				textComponent.setColor(getTextColor(desc));
+				textComponent.setColor(new Color(255,215,70,255));
 				textComponent.setText(desc);
 				textComponent.setPosition(new Point(textX, textY));
 				textComponent.render(graphics);
@@ -752,7 +752,7 @@ class LiteUtilsOverlay extends Overlay
 			graphics.drawImage(itemImage, imageX, imageY - 2, null);
 
 			TextComponent textComponent = new TextComponent();
-			textComponent.setColor(getTextColor(desc));
+			textComponent.setColor(getHighlightColor(price));
 			textComponent.setText(desc);
 			textComponent.setPosition(new Point(textX, textY));
 			textComponent.render(graphics);
@@ -966,6 +966,59 @@ class LiteUtilsOverlay extends Overlay
 			return Color.RED;
 		}
 	}
+
+	private Color getHighlightColor(long price)
+	{
+		long numCoins = Math.abs(price);
+		if (config.overlayEnabled())
+		{
+			if (numCoins >= config.insaneValuePrice())
+			{
+				return new Color(
+					config.insaneValueColor().getRed(),
+					config.insaneValueColor().getGreen(),
+					config.insaneValueColor().getBlue(),
+					255
+				);
+			}
+			else if (numCoins >= config.highValuePrice())
+			{
+				return new Color(
+					config.highValueColor().getRed(),
+					config.highValueColor().getGreen(),
+					config.highValueColor().getBlue(),
+					255
+				);
+			}
+			else if (numCoins >= config.mediumValuePrice())
+			{
+				return new Color(
+					config.mediumValueColor().getRed(),
+					config.mediumValueColor().getGreen(),
+					config.mediumValueColor().getBlue(),
+					255
+				);
+			}
+			else if (numCoins >= config.lowValuePrice())
+			{
+				return new Color(
+					config.lowValueColor().getRed(),
+					config.lowValueColor().getGreen(),
+					config.lowValueColor().getBlue(),
+					255
+				);
+			}
+			else
+			{
+				return new Color(255, 255, 0, 255);
+			}
+		}
+		else
+		{
+			return new Color(255, 255, 0, 255);
+		}
+	}
+
 
 	private String getTotalText(long total)
 	{

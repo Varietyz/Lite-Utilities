@@ -2,6 +2,7 @@ package com.liteutilities;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import java.awt.Color;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +41,7 @@ import net.runelite.client.util.HotkeyListener;
 	name = "Lite Utilities",
 	description = "Utilities that are compact yet informative, display profits and inventory value.",
 	tags = {"combat", "profit", "gold", "items", "inventory", "tracking", "calculate", "skilling", "money", "pouch"},
-	conflicts = {"Inventory Total"}
+	conflicts = {"Inventory Total", "ItemRarity"}
 )
 
 public class LiteUtilitiesPlugin extends Plugin
@@ -57,6 +58,9 @@ public class LiteUtilitiesPlugin extends Plugin
 
 	@Inject
 	private OverlayManager overlayManager;
+
+	@Inject
+	private ItemHighlightOverlay overlayItem;
 
 	@Inject
 	private Client client;
@@ -115,8 +119,12 @@ public class LiteUtilitiesPlugin extends Plugin
 	{
 		overlayManager.add(overlay);
 
-		runData = new LiteUtilsTimerData();
+		if (config.overlayEnabled()) {
+			overlayManager.add(overlayItem);
+		}
 
+		runData = new LiteUtilsTimerData();
+		manualNewRun = true;
 		registerKeys();
 	}
 
@@ -124,7 +132,7 @@ public class LiteUtilitiesPlugin extends Plugin
 	protected void shutDown() throws Exception
 	{
 		overlayManager.remove(overlay);
-
+		overlayManager.remove(overlayItem);
 		unregisterKeys();
 	}
 
@@ -144,12 +152,55 @@ public class LiteUtilitiesPlugin extends Plugin
 		return configManager.getConfig(LiteUtilsConfig.class);
 	}
 
+	LiteUtilsPriceTypes getPriceType()
+	{
+		return config.priceType();
+	}
+
+	// Adjusting rarity check logic based on minimum values:
+	Color getRarityColor(final long itemPrice) // Changed from int to long
+	{
+		if (itemPrice >= config.insaneValuePrice())
+		{
+			return config.insaneValueColor();  // Legendary - red
+		}
+		else if (itemPrice >= config.highValuePrice())
+		{
+			return config.highValueColor();  // Epic - gold
+		}
+		else if (itemPrice >= config.mediumValuePrice())
+		{
+			return config.mediumValueColor();  // Rare - blue
+		}
+		else if (itemPrice >= config.lowValuePrice())
+		{
+			return config.lowValueColor();  // Uncommon - green
+		}
+
+		return null;  // No color for lower values
+	}
+
 	@Subscribe
 	public void onConfigChanged(ConfigChanged config)
 	{
 		if (config.getGroup().equals(LiteUtilsConfig.GROUP))
 		{
-			if (config.getKey().equals("enableProfitLoss"))
+			// Check if the key changed is for overlayEnabled
+			if (config.getKey().equals("overlayEnabled"))
+			{
+				boolean overlayEnabled = configManager.getConfig(LiteUtilsConfig.class).overlayEnabled(); // Get the new config value
+
+				// Directly add/remove the overlayItem based on the new state
+				if (overlayEnabled)
+				{
+					overlayManager.add(overlayItem);
+				}
+				else
+				{
+					overlayManager.remove(overlayItem);
+				}
+			}
+			else if (config.getKey().equals("enableProfitLoss"))
 			{
 				plToggleOverride = null;
 			}
