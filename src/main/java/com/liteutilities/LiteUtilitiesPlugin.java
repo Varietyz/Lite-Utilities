@@ -40,7 +40,7 @@ import net.runelite.client.util.HotkeyListener;
 @PluginDescriptor(
 	name = "Lite Utilities",
 	description = "Utilities that are compact yet informative, display profits and inventory value.",
-	tags = {"combat", "profit", "gold", "items", "inventory", "tracking", "calculate", "skilling", "money", "pouch"},
+	tags = {"combat", "profit", "gold", "items", "inventory", "tracking", "calculate", "skilling", "money", "pouch", "highlight"},
 	conflicts = {"Inventory Total", "ItemRarity"}
 )
 
@@ -157,27 +157,26 @@ public class LiteUtilitiesPlugin extends Plugin
 		return config.priceType();
 	}
 
-	// Adjusting rarity check logic based on minimum values:
-	Color getRarityColor(final long itemPrice) // Changed from int to long
+	Color getRarityColor(final long itemPrice)
 	{
 		if (itemPrice >= config.insaneValuePrice())
 		{
-			return config.insaneValueColor();  // Legendary - red
+			return config.insaneValueColor();
 		}
 		else if (itemPrice >= config.highValuePrice())
 		{
-			return config.highValueColor();  // Epic - gold
+			return config.highValueColor();
 		}
 		else if (itemPrice >= config.mediumValuePrice())
 		{
-			return config.mediumValueColor();  // Rare - blue
+			return config.mediumValueColor();
 		}
 		else if (itemPrice >= config.lowValuePrice())
 		{
-			return config.lowValueColor();  // Uncommon - green
+			return config.lowValueColor();
 		}
 
-		return null;  // No color for lower values
+		return null;
 	}
 
 	@Subscribe
@@ -185,12 +184,10 @@ public class LiteUtilitiesPlugin extends Plugin
 	{
 		if (config.getGroup().equals(LiteUtilsConfig.GROUP))
 		{
-			// Check if the key changed is for overlayEnabled
 			if (config.getKey().equals("overlayEnabled"))
 			{
-				boolean overlayEnabled = configManager.getConfig(LiteUtilsConfig.class).overlayEnabled(); // Get the new config value
+				boolean overlayEnabled = configManager.getConfig(LiteUtilsConfig.class).overlayEnabled();
 
-				// Directly add/remove the overlayItem based on the new state
 				if (overlayEnabled)
 				{
 					overlayManager.add(overlayItem);
