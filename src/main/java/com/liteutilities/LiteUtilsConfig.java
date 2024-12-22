@@ -199,7 +199,7 @@ public interface LiteUtilsConfig extends Config
 	)
 	default int lowValuePrice()
 	{
-		return 10000;  // Change from int to long
+		return 10000;
 	}
 
 	@Alpha
@@ -224,7 +224,7 @@ public interface LiteUtilsConfig extends Config
 	)
 	default int mediumValuePrice()
 	{
-		return 100000;  // Change from int to long
+		return 100000;
 	}
 
 	@Alpha
@@ -249,7 +249,7 @@ public interface LiteUtilsConfig extends Config
 	)
 	default int highValuePrice()
 	{
-		return 1000000;  // Change from int to long
+		return 1000000;
 	}
 
 	@Alpha
@@ -274,7 +274,7 @@ public interface LiteUtilsConfig extends Config
 	)
 	default int insaneValuePrice()
 	{
-		return 10000000;  // Change from int to long
+		return 10000000;
 	}
 
 	@ConfigItem(
