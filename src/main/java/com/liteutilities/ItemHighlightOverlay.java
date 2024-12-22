@@ -27,14 +27,13 @@ public class ItemHighlightOverlay extends WidgetItemOverlay
 		showOnBank();
 	}
 
-	private long itemPrice(int itemId) // Changed return type from int to long
+	private long itemPrice(int itemId)
 	{
 		ItemComposition itemDef = itemManager.getItemComposition(itemId);
-		long maxPrice = 0;  // Changed variable type from int to long
+		long maxPrice = 0;
 		int gePrice = itemManager.getItemPrice(itemId);
 		int haPrice = itemDef.getHaPrice();
 
-		// Precompute based on Price Type
 		if (plugin.getPriceType() == LiteUtilsPriceTypes.GRAND_EXCHANGE)
 		{
 			maxPrice = Math.max(maxPrice, gePrice);
@@ -50,12 +49,10 @@ public class ItemHighlightOverlay extends WidgetItemOverlay
 	@Override
 	public void renderItemOverlay(Graphics2D graphics, int itemId, WidgetItem itemWidget)
 	{
-		long price = itemPrice(itemId);  // Changed price to long
+		long price = itemPrice(itemId);
+		price *= itemWidget.getQuantity();
 
-		// Always multiply price by stack count
-		price *= itemWidget.getQuantity();  // This is now always applied
-
-		final Color color = plugin.getRarityColor(price);  // Passed long instead of int
+		final Color color = plugin.getRarityColor(price);
 
 		if (color == null || color.getAlpha() == 0)
 		{
