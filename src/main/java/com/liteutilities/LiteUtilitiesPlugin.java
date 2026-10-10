@@ -18,12 +18,12 @@ import net.runelite.api.Client;
 import net.runelite.api.EnumComposition;
 import net.runelite.api.EnumID;
 import net.runelite.api.EquipmentInventorySlot;
-import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.ItemComposition;
 import net.runelite.api.ItemContainer;
-import net.runelite.api.ItemID;
-import net.runelite.api.Varbits;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.ItemID;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -46,7 +46,7 @@ import net.runelite.client.util.HotkeyListener;
 
 public class LiteUtilitiesPlugin extends Plugin
 {
-	static final int COINS = ItemID.COINS_995;
+	static final int COINS = ItemID.COINS;
 	static final int TOTAL_GP_GE_INDEX = 0;
 	static final int TOTAL_GP_HA_INDEX = 1;
 	static final int TOTAL_QTY_INDEX = 2;
@@ -108,10 +108,10 @@ public class LiteUtilitiesPlugin extends Plugin
 	private boolean manualNewRun = false;
 
 	private static final long[] RUNEPOUCH_AMOUNT_VARBITS = {
-			Varbits.RUNE_POUCH_AMOUNT1, Varbits.RUNE_POUCH_AMOUNT2, Varbits.RUNE_POUCH_AMOUNT3, Varbits.RUNE_POUCH_AMOUNT4
+			VarbitID.RUNE_POUCH_QUANTITY_1, VarbitID.RUNE_POUCH_QUANTITY_2, VarbitID.RUNE_POUCH_QUANTITY_3, VarbitID.RUNE_POUCH_QUANTITY_4
 	};
 	private static final long[] RUNEPOUCH_RUNE_VARBITS = {
-			Varbits.RUNE_POUCH_RUNE1, Varbits.RUNE_POUCH_RUNE2, Varbits.RUNE_POUCH_RUNE3, Varbits.RUNE_POUCH_RUNE4
+			VarbitID.RUNE_POUCH_TYPE_1, VarbitID.RUNE_POUCH_TYPE_2, VarbitID.RUNE_POUCH_TYPE_3, VarbitID.RUNE_POUCH_TYPE_4
 	};
 
 	@Override
@@ -438,7 +438,7 @@ public class LiteUtilitiesPlugin extends Plugin
 
 	long[] getEquipmentTotals(boolean isNewRun)
 	{
-		final ItemContainer itemContainer = client.getItemContainer(InventoryID.EQUIPMENT);
+		final ItemContainer itemContainer = client.getItemContainer(InventoryID.WORN);
 
 		if (itemContainer == null)
 		{
@@ -534,7 +534,7 @@ public class LiteUtilitiesPlugin extends Plugin
 
 	private List<Item> getEquipment()
 	{
-		final ItemContainer equipment = client.getItemContainer(InventoryID.EQUIPMENT);
+		final ItemContainer equipment = client.getItemContainer(InventoryID.WORN);
 
 		if (equipment == null)
 		{

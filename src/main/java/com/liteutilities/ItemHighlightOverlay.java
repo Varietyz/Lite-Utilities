@@ -31,7 +31,7 @@ public class ItemHighlightOverlay extends WidgetItemOverlay
 	{
 		ItemComposition itemDef = itemManager.getItemComposition(itemId);
 		long maxPrice = 0;
-		int gePrice = itemManager.getItemPrice(itemId);
+		long gePrice = itemManager.getItemPrice(itemId);
 		int haPrice = itemDef.getHaPrice();
 
 		if (plugin.getPriceType() == LiteUtilsPriceTypes.GRAND_EXCHANGE)

@@ -26,17 +26,16 @@ package com.liteutilities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.runelite.api.Point;
-import net.runelite.api.widgets.ComponentID;
+import net.runelite.api.gameval.InterfaceID;
 
 @Getter
 @AllArgsConstructor
 public enum ViewportModus
 {
-	RESIZED_BOX(ComponentID.RESIZABLE_VIEWPORT_RESIZABLE_VIEWPORT_OLD_SCHOOL_BOX, ComponentID.RESIZABLE_VIEWPORT_INTERFACE_CONTAINER),
-	RESIZED_BOTTOM(ComponentID.RESIZABLE_VIEWPORT_BOTTOM_LINE_RESIZABLE_VIEWPORT_BOTTOM_LINE, ComponentID.RESIZABLE_VIEWPORT_BOTTOM_LINE_INTERFACE_CONTAINER),
-	FIXED(ComponentID.FIXED_VIEWPORT_FIXED_VIEWPORT, ComponentID.FIXED_VIEWPORT_INTERFACE_CONTAINER),
-	FIXED_BANK(ComponentID.BANK_CONTAINER, ComponentID.BANK_INVENTORY_ITEM_CONTAINER);
+	RESIZED_BOX(InterfaceID.ToplevelOsrsStretch.HUD_CONTAINER_FRONT, InterfaceID.ToplevelOsrsStretch.SIDE_CONTAINER),
+	RESIZED_BOTTOM(InterfaceID.ToplevelPreEoc.HUD_CONTAINER_FRONT, InterfaceID.ToplevelPreEoc.SIDE_BACKGROUND),
+	FIXED(InterfaceID.Toplevel.OVERLAY_HUD, InterfaceID.Toplevel.SIDE_PANELS),
+	FIXED_BANK(InterfaceID.Bankmain.UNIVERSE, InterfaceID.Bankside.ITEMS);
 
 	private int container;
 	private final int viewport;

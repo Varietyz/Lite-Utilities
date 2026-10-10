@@ -22,11 +22,11 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 import lombok.Getter;
 import net.runelite.api.Client;
-import net.runelite.api.InventoryID;
 import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
-import net.runelite.api.ItemID;
-import net.runelite.api.widgets.ComponentID;
+import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.gameval.InventoryID;
+import net.runelite.api.gameval.ItemID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.FontManager;
@@ -130,9 +130,9 @@ class LiteUtilsOverlay extends Overlay
 
 	void updatePluginState()
 	{
-		inventoryWidget = client.getWidget(ComponentID.INVENTORY_CONTAINER);
-		inventoryItemContainer = client.getItemContainer(InventoryID.INVENTORY);
-		equipmentItemContainer = client.getItemContainer(InventoryID.EQUIPMENT);
+		inventoryWidget = client.getWidget(InterfaceID.Inventory.ITEMS);
+		inventoryItemContainer = client.getItemContainer(InventoryID.INV);
+		equipmentItemContainer = client.getItemContainer(InventoryID.WORN);
 
 		if (plugin.getPLToggleOverride() == null)
 		{
@@ -160,8 +160,8 @@ class LiteUtilsOverlay extends Overlay
 		{
 			Widget[] altInventoryWidgets = new Widget[]
 				{
-				client.getWidget(ComponentID.BANK_INVENTORY_ITEM_CONTAINER),
-				client.getWidget(ComponentID.DEPOSIT_BOX_INVENTORY_ITEM_CONTAINER)
+				client.getWidget(InterfaceID.Bankside.ITEMS),
+				client.getWidget(InterfaceID.BankDepositbox.INVENTORY)
 			};
 
 			for (Widget altInventoryWidget : altInventoryWidgets)
@@ -263,7 +263,7 @@ class LiteUtilsOverlay extends Overlay
 	{
 		updatePluginState();
 
-		Widget depositBox = client.getWidget(ComponentID.DEPOSIT_BOX_INVENTORY_ITEM_CONTAINER);
+		Widget depositBox = client.getWidget(InterfaceID.BankDepositbox.INVENTORY);
 		Widget viewportWidget = getViewportWidget();
 
 		if (viewportWidget == null || (depositBox != null && depositBox.isHidden()))
@@ -463,7 +463,7 @@ class LiteUtilsOverlay extends Overlay
 		textComponent.render(graphics);
 
 		int imageOffset = 4;
-		BufferedImage coinsImage = itemManager.getImage(ItemID.COINS_995, numCoins, false);
+		BufferedImage coinsImage = itemManager.getImage(ItemID.COINS, numCoins, false);
 
 		BufferedImage resizedImage = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = resizedImage.createGraphics();
@@ -498,7 +498,7 @@ class LiteUtilsOverlay extends Overlay
 	{
 		BufferedImage itemImage;
 
-		if (itemId == ItemID.COINS_995)
+		if (itemId == ItemID.COINS)
 		{
 			int xCoins = 0;
 
@@ -506,13 +506,13 @@ class LiteUtilsOverlay extends Overlay
 			{
 				for (Item item : inventoryItemContainer.getItems())
 				{
-					if (item.getId() == ItemID.COINS_995)
+					if (item.getId() == ItemID.COINS)
 					{
 						xCoins += item.getQuantity();
 					}
 				}
 			}
-			itemImage = itemManager.getImage(ItemID.COINS_995, Math.abs(xCoins), false);
+			itemImage = itemManager.getImage(ItemID.COINS, Math.abs(xCoins), false);
 		}
 		else
 		{
